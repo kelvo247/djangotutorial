@@ -33,10 +33,14 @@ class Invoice(models.Model):
         return f"Invoice #{self.id} - {self.date}"
 
 class InvoiceItem(models.Model):
-    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='items')
-    item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
+    invoice = models.ForeignKey("Invoice", on_delete=models.CASCADE, related_name='items')
+    item = models.ForeignKey("MenuItem", on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
     unit_price = models.DecimalField(max_digits=6, decimal_places=2)
 
-    def __str__(self):
-        return f"{self.quantity} x {self.item.name} (Invoice {self.invoice.id})"
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        # Update the invoice total
+        total = sum(item.quantity * item.unit_price for item in self.invoice.items.all())
+        self.invoice.total_amount = total
+        self.invoice.save()
