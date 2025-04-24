@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseForbidden, HttpResponse
 from django.utils.timezone import now
 from .models import Staff, MenuItem, Invoice, InvoiceItem
+from django.utils.timezone import now
 
 # Staff Login View
 def staff_login(request):
@@ -54,3 +55,4 @@ def view_invoice(request):
         return HttpResponseForbidden("Only managers can view invoices.")
     
     return render(request, 'invoicing/invoices.html', {})
+

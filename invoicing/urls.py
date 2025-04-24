@@ -9,7 +9,7 @@ urlpatterns = [
     path('chef/dashboard/', views.chef_dashboard, name='chef_dashboard'),
     path('cashier/dashboard/', views.cashier_dashboard, name='cashier_dashboard'),
 
-    path('orders/today/', views.view_orders, name='view_orders'),
-    path('menu/update/', views.update_availability, name='update_availability'),
+
+
 
 ]
